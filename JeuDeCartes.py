@@ -1,36 +1,83 @@
+# Coeur 3
+# Carreau 2
+# Trèfle 1
+# Pique 0
+# 13
+import random
 
-from JeuDeCartes import JeuDeCartes
-from Player import Player
 
-player2 = Player(JeuDeCartes())
-player1 = Player(JeuDeCartes())
+class JeuDeCartes():
 
-player2.getDeck().battre()
-player1.getDeck().battre()
+    def __init__(self):
+        self.colorCard = 0
+        self.cardsGame = []
+        self.colorCards = ("de Coeur", "de Carreau", "de Trèfle", "de Pique")
+        self.nameCards = ("Valet", "Dame", "Roi", "As")
 
-print(player1.getDeck().getCardsGame())
-print("=-----------------=")
-print(player2.getDeck().getCardsGame())
+        for index in range(1, 53):
+            if index <= 13:
+                colorCard = 0
+                self.cardsGame.append((index+1, colorCard))
+            elif index <= 26:
+                colorCard = 1
+                self.cardsGame.append(((index+1)-13, colorCard))
+            elif index <= 39:
+                colorCard = 2
+                self.cardsGame.append(((index+1)-26, colorCard))
+            elif index <= 52:
+                colorCard = 3
+                self.cardsGame.append(((index+1)-39, colorCard))
 
-nbEgalite = 0
-print("=-----------------=")
-for count in range(0, 52):
-    tirageP1 = player1.getDeck().tirer()[0]
-    tirageP2 = player2.getDeck().tirer()[0]
-    if (tirageP1 == tirageP2):
-        nbEgalite = nbEgalite + 1
+    def getCardsGame(self):
+        return self.cardsGame
+
+    def nom_carte(self, card):
+        result = ""
+        for cardValue in self.cardsGame:
+            if cardValue == card:
+                continue
+            else:
+                break
+            pass
         pass
 
-    if (tirageP1 < tirageP2):
-        player2.addPoint()
-        print(tirageP1, tirageP2)
-        pass
-    else:
-        player1.addPoint()
-        print(tirageP1, tirageP2)
-        pass
-    pass
+        if card[0] == 14:
+            result = result + self.nameCards[3]
+            pass
+        elif card[0] == 13:
+            result = result + self.nameCards[2]
+            pass
+        elif card[0] == 12:
+            result = result + self.nameCards[1]
+            pass
+        elif card[0] == 11:
+            result = result + self.nameCards[0]
+            pass
+        else:
+            result = result + str(card[0])
+            pass
 
-print(f"Joueur 1 : {player1.getPoints()} point(s)")
-print(f"Joueur 2 : {player2.getPoints()} point(s)")
-print(f"égalités : {nbEgalite}")
+        if card[1] == 0:
+            result = result + " " + self.colorCards[0]
+            pass
+        elif card[1] == 1:
+            result = result + " " + self.colorCards[1]
+            pass
+        elif card[1] == 2:
+            result = result + " " + self.colorCards[2]
+            pass
+        elif card[1] == 3:
+            result = result + " " + self.colorCards[3]
+            pass
+
+        return result
+
+    def battre(self):
+        random.shuffle(self.cardsGame)
+        return self.cardsGame
+
+    def tirer(self):
+        if len(self.cardsGame) == 0:
+            return (0, 0)
+        else:
+            return self.cardsGame.pop(0)
