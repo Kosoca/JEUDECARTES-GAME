@@ -78,6 +78,6 @@ class JeuDeCartes():
 
     def tirer(self):
         if len(self.cardsGame) == 0:
-            return (0, 0)
+            return None
         else:
             return self.cardsGame.pop(0)
